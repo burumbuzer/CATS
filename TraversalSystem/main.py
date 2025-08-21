@@ -261,12 +261,15 @@ def jump_to_system(system_name):
     time.sleep(6)
 
     if journal_watcher.last_carrier_request() != system_name:
-        print(journal_watcher.lastCarrierRequest)
-        print(system_name)
-        print("Jump appears to have failed.")
-        print("Re-attempting...")
-        follow_button_sequence("jump_fail.txt")
-        return 0, 0
+        time.sleep(60)
+        if journal_watcher.last_carrier_request() != system_name:
+            print(journal_watcher.lastCarrierRequest)
+            print(system_name)
+            print("Jump appears to have failed.")
+            print("Re-attempting...")
+            follow_button_sequence("jump_fail.txt")
+            return 0, 0
+        print("Seems there was an loading screen lag, proceeding jump...")
 
     current_time = datetime.datetime.now(datetime.timezone.utc)
     departure_time_str = journal_watcher.departureTime
